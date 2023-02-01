@@ -14,6 +14,7 @@ import java.util.Objects;
 @Getter
 @EqualsAndHashCode
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 
 @Entity
@@ -28,9 +29,14 @@ public class AppUser {
     @CreationTimestamp
     private LocalDate regDate;
 
-    public AppUser(String userName, String passWord) {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "details_id")
+    private Details details;
+
+    public AppUser(String userName, String passWord,Details details) {
         this.userName = userName;
         this.passWord = passWord;
+        this.details = details;
     }
 
     /*public AppUser() {
