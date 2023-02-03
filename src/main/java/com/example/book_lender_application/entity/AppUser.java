@@ -23,7 +23,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(unique = true,nullable = false)
-    private String userName;
+    private String username;
     @Column(nullable = false)
     private String passWord;
     @CreationTimestamp
@@ -34,7 +34,7 @@ public class AppUser {
     private Details details;
 
     public AppUser(String userName, String passWord,Details details) {
-        this.userName = userName;
+        this.username =  userName;
         this.passWord = passWord;
         this.details = details;
     }
