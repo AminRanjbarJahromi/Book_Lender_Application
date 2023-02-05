@@ -40,4 +40,6 @@ public class BookLoan {
         this.borrower = borrower;
         this.returned = (borrower == null);
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.example.book_lender_application.entity;
 
+import com.example.book_lender_application.Exception.DataDuplicateException;
+import com.example.book_lender_application.Exception.DataNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,5 +40,19 @@ public class Book {
         this.isbn = isbn;
         this.title = title;
         this.maxLoanDate = maxLoanDate;
+    }
+
+    public void addAuthor(Author author){
+
+        if (authors.contains(author)){
+            throw new DataDuplicateException("Data Duplicate Exception");
+        }
+    }
+
+    public void removeAuthor(Author author){
+
+        if (!authors.contains(author)){
+            throw new DataNotFoundException("Data Not Found Exception");
+        }
     }
 }
