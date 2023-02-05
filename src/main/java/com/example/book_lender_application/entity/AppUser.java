@@ -1,5 +1,7 @@
 package com.example.book_lender_application.entity;
 
+import com.example.book_lender_application.Exception.DataDuplicateException;
+import com.example.book_lender_application.Exception.DataNotFoundException;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -33,6 +37,11 @@ public class AppUser {
     @JoinColumn(name = "details_id")
     private Details details;
 
+
+    @OneToMany(mappedBy = "borrower",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<BookLoan> bookLoans = new ArrayList<>();
+
     public AppUser(String userName, String passWord,Details details) {
         this.username =  userName;
         this.passWord = passWord;
@@ -44,4 +53,43 @@ public class AppUser {
     }
 
      */
+
+    /*public boolean addBookLoan (BookLoan bookLoan){
+        if(bookLoans.contains(bookLoan)){
+            return false;
+        }
+        bookLoans.add(bookLoan);
+        bookLoan.setBorrower(this);
+        return true;
+    }
+
+    public boolean removeBookLoan(BookLoan bookLoan){
+        if(!bookLoans.contains(bookLoan)){
+            return false;
+        }
+        bookLoans.remove(bookLoan);
+        bookLoan.setBorrower(this);
+        return true;
+
+    }*/
+
+
+
+    public void addBookLoan (BookLoan bookLoan){
+        if(bookLoans.contains(bookLoan)){
+            throw new DataDuplicateException("Book is loaned");
+        }
+        bookLoans.add(bookLoan);
+        bookLoan.setBorrower(this);
+
+    }
+
+    public void removeBookLoan(BookLoan bookLoan){
+        if(!bookLoans.contains(bookLoan)){
+            throw new DataNotFoundException("book is not loaned");
+        }
+        bookLoans.remove(bookLoan);
+        bookLoan.setBorrower(this);
+
+    }
 }

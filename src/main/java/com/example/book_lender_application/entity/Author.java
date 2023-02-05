@@ -1,5 +1,7 @@
 package com.example.book_lender_application.entity;
 
+import com.example.book_lender_application.Exception.DataDuplicateException;
+import com.example.book_lender_application.Exception.DataNotFoundException;
 import lombok.*;
 import org.hibernate.engine.internal.Cascade;
 
@@ -33,4 +35,18 @@ public class Author {
                 inverseJoinColumns = @JoinColumn(name = "book_id")
         )
         private List<Book> writtenBook = new ArrayList<>();
+
+        public void addrBook(Book book){
+
+                if (writtenBook.contains(book)){
+                        throw new DataDuplicateException("Data Duplicate Exception");
+                }
+        }
+
+        public void removeBook(Book book){
+
+                if (!writtenBook.contains(book)){
+                        throw new DataNotFoundException("Data Not Found Exception");
+                }
+        }
 }
